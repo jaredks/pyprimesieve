@@ -1,0 +1,90 @@
+pyprimesieve
+============
+
+Many primes, very fast. Uses [primesieve][0].
+
+primesieve, one of the fastest (if not the fastest) prime sieve implementaions available, is actively maintained by
+Kim Walisch.
+
+It uses a segmented sieve of Eratosthenes with wheel factorization for a complexity of `O(nloglogn)` operations.
+
+
+Performance
+-----------
+
+Regarding primesieve for C++:
+
+> primesieve generates the first 50,847,534 primes up to 10^9 in just 0.4 seconds on a single core of an Intel Core
+> i7-920 2.66GHz, this is about 50 times faster than an ordinary C/C++ sieve of Eratosthenes implementation and about
+> 10,000 times faster than trial-division. primesieve outperforms [Kim's] older [ecprime][1] (fastest from 2002 to 2010) by
+> about 30 percent and also substantially outperforms [primegen][2] the fastest sieve of Atkin implementation on the
+> web.
+
+For comparison, on an Intel Core i7 2GHz, `pyprimesieve` populates an entire Python list of the first
+50,847,534 primes in 1.40 seconds. It's expected that a Python implementation would be slower than C++ but,
+surprisingly, by only one second.
+
+`pyprimesieve` outperforms all of the fastest prime sieving implementations for Python.
+
+    Time (ms) to generate the all primes below one million and iterate over them in Python:
+
+    pyprimes_primes      2.79903411865
+    primesfrom2to        13.1568908691
+    primesfrom3to        13.5800838470
+    ambi_sieve           16.1600112915
+    rwh_primes2          38.7749671936
+    rwh_primes1          48.5658645630
+    rwh_primes           52.0040988922
+    sieve_wheel_30       59.3869686127
+    sieveOfEratosthenes  59.4990253448
+    ambi_sieve_plain     161.740064621
+    sieveOfAtkin         232.724905014
+    sundaram3            251.194953918
+
+It can be seen here that `pyprimesieve` is *4.7 times faster* than the fastest Python alternative using `Numpy` and
+*13.85 times faster* than the fastest pure Python sieve.
+
+All benchmark scripts and algorithms are available for reproduction.
+
+
+Functions
+---------
+
+**primes(n)**: List of prime numbers up to `n`.
+
+**primes(start, n)**: List of prime numbers from `start` up to `n`.
+
+**primes_sum(n [, threads])**: The summation of prime numbers up to `n`. If `threads` is given, that many threads will
+be created. If not, the optimal number of threads will be determined.
+
+**primes_sum(start, n [, threads])**: The summation of prime numbers from `start` up to `n`. If `threads` is given,
+that many threads will be created. If not, the optimal number of threads will be determined.
+
+**primes_nth(n)**: The nth prime number.
+
+**factorize(n)**: List of tuples in the form of (*prime*, *power*) for the prime factorization of `n`.
+
+
+Installation
+------------
+
+    python setup.py install
+
+NOTE: Because of the need to use OpenMP to compile the parallelized version of summation, gcc is invoked manually to
+avoid distutils choosing a compiler that does not have support for OpenMP. This may require adjustments for your
+specific system (the lines are marked in setup.py). At the worst, `sum(pyprimesieve.primes(n))` will be used as the
+fallback - which is still the fastest method compared to all others :)
+
+After installation, you can make sure everything is working by running the following inside the project root folder,
+
+    python tests
+
+
+License
+-------
+
+"Modified BSD License". See LICENSE for details. Copyright Jared Suttles, 2013.
+
+[0]: http://code.google.com/p/primesieve/
+[1]: http://primzahlen.de/referenten/Kim_Walisch/index2.htm
+[2]: http://cr.yp.to/primegen.html
