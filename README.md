@@ -28,7 +28,7 @@ surprisingly, by only one second.
 
     Time (ms) to generate the all primes below one million and iterate over them in Python:
 
-    pyprimes_primes      2.79903411865
+    pyprimesieve         2.79903411865
     primesfrom2to        13.1568908691
     primesfrom3to        13.5800838470
     ambi_sieve           16.1600112915
@@ -44,8 +44,8 @@ surprisingly, by only one second.
 It can be seen here that `pyprimesieve` is *4.7 times faster* than the fastest Python alternative using `Numpy` and
 *13.85 times faster* than the fastest pure Python sieve.
 
-All benchmark scripts and algorithms are available for reproduction.
-
+All benchmark scripts and algorithms are available for reproduction. Prime sieve algorithm implemenations were taken
+from [this discussion on SO][3].
 
 Functions
 ---------
@@ -62,7 +62,7 @@ that many threads will be created. If not, the optimal number of threads will be
 
 **primes_nth(n)**: The nth prime number.
 
-**factorize(n)**: List of tuples in the form of (*prime*, *power*) for the prime factorization of `n`.
+**factorize(n)**: List of tuples in the form of (prime, power) for the prime factorization of `n`.
 
 
 Installation
@@ -70,10 +70,9 @@ Installation
 
     python setup.py install
 
-NOTE: Because of the need to use OpenMP to compile the parallelized version of summation, gcc is invoked manually to
-avoid distutils choosing a compiler that does not have support for OpenMP. This may require adjustments for your
-specific system (the lines are marked in setup.py). At the worst, `sum(pyprimesieve.primes(n))` will be used as the
-fallback - which is still the fastest method compared to all others :)
+NOTE: Because of the need to use OpenMP to compile the parallelized version of summation, gcc is specified in
+environment variables of setup to avoid distutils choosing a compiler that does not have support for OpenMP. If you
+don't have gcc, you will need to change that in setup.py.
 
 After installation, you can make sure everything is working by running the following inside the project root folder,
 
@@ -88,3 +87,4 @@ License
 [0]: http://code.google.com/p/primesieve/
 [1]: http://primzahlen.de/referenten/Kim_Walisch/index2.htm
 [2]: http://cr.yp.to/primegen.html
+[3]: http://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n-in-python

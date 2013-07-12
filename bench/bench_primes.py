@@ -2,7 +2,7 @@
 import dev
 from math import sqrt, ceil
 import numpy as np
-from pyprimesieve import primes as pyprimes_primes
+from pyprimesieve import primes as pyprimesieve
 
 ################################################################################
 # Prime algorithms
@@ -370,13 +370,13 @@ def benchmark_primes(n, functions, bestof=6):
     return sorted(algorithm_times, key=lambda x: x[1])
 
 FUNCTIONS = [
-    'pyprimes_primes', 'rwh_primes', 'rwh_primes1', 'rwh_primes2', 'sieve_wheel_30', 'sieveOfEratosthenes',
+    'pyprimesieve', 'rwh_primes', 'rwh_primes1', 'rwh_primes2', 'sieve_wheel_30', 'sieveOfEratosthenes',
     'sieveOfAtkin', 'ambi_sieve_plain', 'sundaram3', 'ambi_sieve', 'primesfrom3to', 'primesfrom2to',
 ]
 
-#FUNCTIONS = ['pyprimes_primes', 'primesfrom2to', 'primesfrom3to', 'ambi_sieve']  # the real competition
+#FUNCTIONS = ['pyprimesieve', 'primesfrom2to', 'primesfrom3to', 'ambi_sieve']  # the real competition
 
-#FUNCTIONS = ['pyprimes_primes']
+#FUNCTIONS = ['pyprimesieve']
 
 if __name__ == "__main__":
     for n in xrange(6, 7):
