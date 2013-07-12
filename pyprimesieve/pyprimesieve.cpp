@@ -81,7 +81,7 @@ static PyObject* factorize(PyObject* self, PyObject* args){
         i++;
     }
     if (i > 0){
-        PyObject* tuple = PyTuple_Pack(2, PyInt_FromLong(2), PyInt_FromSsize_t(i));
+        PyObject* tuple = PyTuple_Pack(2, PyInt_FromLong(2), PyInt_FromSize_t(i));
         PyList_Append(prime_factorization, tuple);
         Py_DECREF(tuple);
     }
@@ -93,7 +93,7 @@ static PyObject* factorize(PyObject* self, PyObject* args){
             i++;
         }
         if (i > 0){
-            PyObject* tuple = PyTuple_Pack(2, PyInt_FromSsize_t(p), PyInt_FromSsize_t(i));
+            PyObject* tuple = PyTuple_Pack(2, PyInt_FromSize_t(p), PyInt_FromSize_t(i));
             PyList_Append(prime_factorization, tuple);
             Py_DECREF(tuple);
         }
@@ -109,7 +109,7 @@ static PyObject* factorize(PyObject* self, PyObject* args){
 
 size_t sum = 0;
 
-void summation(uint64_t prime) {
+void summation(uint64_t prime){
     sum += prime;
 }
 
@@ -128,8 +128,25 @@ static PyObject* primes_sum(PyObject* self, PyObject* args){
     pps.setNumThreads(ParallelPrimeSieve::getMaxThreads());  // calls OpenMP's omp_get_max_threads
     pps.generatePrimes(start, n-1, summation);
     Py_END_ALLOW_THREADS    //----
-    return PyInt_FromLong(sum);
+    return PyInt_FromSize_t(sum);
 }
+
+class StopPrimeGeneration : public std::exception {};
+
+class NthPrime : public PrimeSieveCallback<uint64_t> {
+public:
+    NthPrime(Py_ssize_t n) : n(n), i(0) {}
+    void callback(uint64_t p){
+        if (++i == n){
+            prime = PyInt_FromSize_t(p);
+            throw StopPrimeGeneration();
+        }
+    }
+    PyObject* prime;
+private:
+    Py_ssize_t n;
+    Py_ssize_t i;
+};
 
 static PyObject* primes_nth(PyObject* self, PyObject* args){
     Py_ssize_t n = 0;
@@ -145,8 +162,13 @@ static PyObject* primes_nth(PyObject* self, PyObject* args){
         case 4: return PyInt_FromLong(7);
         case 5: return PyInt_FromLong(11);
     }
-    PyObject* primes_list = primes(NULL, PyTuple_Pack(1, PyInt_FromSsize_t(n*log(n*log(n)))));
-    return PyObject_CallMethod(primes_list, (char*)"__getitem__", (char*)"(n)", n-1);
+    NthPrime nthprime(n);
+    PrimeSieve ps;
+    try {
+        ps.generatePrimes(0, n*log(n*log(n)), &nthprime);
+    }
+    catch (StopPrimeGeneration&) {}
+    return nthprime.prime;
 }
 
 static PyMethodDef module_methods[] = {

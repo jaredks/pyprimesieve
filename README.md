@@ -44,7 +44,7 @@ surprisingly, by only one second.
 It can be seen here that `pyprimesieve` is *4.7 times faster* than the fastest Python alternative using `Numpy` and
 *13.85 times faster* than the fastest pure Python sieve.
 
-All benchmark scripts and algorithms are available for reproduction. Prime sieve algorithm implemenations were taken
+All benchmark scripts and algorithms are available for reproduction. Prime sieve algorithm implementations were taken
 from [this discussion on SO][3].
 
 Functions

@@ -1,6 +1,13 @@
 Changes
 =======
 
+0.1.2 (2013-07-12)
+------------------
+
+- primes_nth uses callback class instead of creating any PyObjects in order to call primes
+    - Caused a memory leak and was unnecessary
+
+
 0.1.1 (2013-07-12)
 ------------------
 
