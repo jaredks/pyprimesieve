@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import dev
 import unittest
 import pyprimesieve
 from itertools import izip_longest, dropwhile

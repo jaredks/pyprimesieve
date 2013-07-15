@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import dev
 import unittest
 import pyprimesieve
 from test_primes import sequences_equal

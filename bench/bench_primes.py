@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-import dev
+from timeit import Timer
 from math import sqrt, ceil
 import numpy as np
 from pyprimesieve import primes as pyprimesieve
+
 
 ################################################################################
 # Prime algorithms
@@ -351,32 +352,29 @@ def primesfrom2to(n):
 ################################################################################
 # Performance testing
 ################################################################################
+def iterate_primes(primes_function):  # iteration speed matters as well
+    def find_primes_and_iterate(n):
+        for _ in primes_function(n):
+            pass
+    return find_primes_and_iterate
+
+
 def benchmark_primes(n, functions, bestof=6):
-    from benchmark import benchmark
-
-    def iterate_primes(primes_function):  # iteration speed matters as well
-        def find_primes_and_iterate(n):
-            for _ in primes_function(n):
-                pass
-        return find_primes_and_iterate
-
     algorithm_times = []
     for function_name in functions:
-        function = globals()[function_name]
-        function = iterate_primes(function)  # toggle for including iteration as a measure of speed
-        timer = benchmark(function, n, bestof=bestof)   * 10**3  # toggle for secs <-> ms
+        timer = min(Timer(stmt='fn = iterate_primes({}); fn({})'.format(function_name, n),
+                          setup='from __main__ import {}, iterate_primes'.format(function_name)).repeat(repeat=bestof,
+                                                                                                        number=1))
+        timer *= 10**3
         algorithm_times.append((function_name, timer))
-
     return sorted(algorithm_times, key=lambda x: x[1])
+
 
 FUNCTIONS = [
     'pyprimesieve', 'rwh_primes', 'rwh_primes1', 'rwh_primes2', 'sieve_wheel_30', 'sieveOfEratosthenes',
     'sieveOfAtkin', 'ambi_sieve_plain', 'sundaram3', 'ambi_sieve', 'primesfrom3to', 'primesfrom2to',
 ]
 
-#FUNCTIONS = ['pyprimesieve', 'primesfrom2to', 'primesfrom3to', 'ambi_sieve']  # the real competition
-
-#FUNCTIONS = ['pyprimesieve']
 
 if __name__ == "__main__":
     for n in xrange(6, 7):

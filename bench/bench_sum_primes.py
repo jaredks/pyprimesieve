@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-import dev
-from benchmark import benchmark
+from timeit import Timer
 from pyprimesieve import primes, primes_sum
 
 def sumofprimes(n):  # lambda expression is slower
@@ -9,7 +8,8 @@ def sumofprimes(n):  # lambda expression is slower
 if __name__ == "__main__":
     for n in xrange(5, 9):
         print '10**{}'.format(n)
-        n = 10**n
-        print 'pyprimesieve.primes.sum', benchmark(primes_sum, n, bestof=12) * 10**3
-        print 'sum(pyprimesieve.primes)', benchmark(sumofprimes, n, bestof=12) * 10**3
+        for fn in ['primes_sum', 'sumofprimes']:
+            timer = Timer(stmt='{}({})'.format(fn, 10**n), setup='from __main__ import {}'.format(fn))
+            timer = min(timer.repeat(repeat=12, number=1)) * 10**3
+            print fn, timer
         print ''
