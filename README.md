@@ -54,11 +54,11 @@ Functions
 
 **primes(start, n)**: List of prime numbers from `start` up to `n`.
 
-**primes_sum(n [, threads])**: The summation of prime numbers up to `n`. If `threads` is given, that many threads will
-be created. If not, the optimal number of threads will be determined.
+**primes_sum(n)**: The summation of prime numbers up to `n`. The optimal number of threads will be determined for the
+given number and system.
 
-**primes_sum(start, n [, threads])**: The summation of prime numbers from `start` up to `n`. If `threads` is given,
-that many threads will be created. If not, the optimal number of threads will be determined.
+**primes_sum(start, n)**: The summation of prime numbers from `start` up to `n`. The optimal number of threads will be
+determined for the given numbers and system.
 
 **primes_nth(n)**: The nth prime number.
 
@@ -72,7 +72,12 @@ Installation
 
 NOTE: Because of the need to use OpenMP to compile the parallelized version of summation, gcc is specified in
 environment variables of setup to avoid distutils choosing a compiler that does not have support for OpenMP. If you
-don't have gcc, you will need to change that in setup.py.
+don't have gcc, you will need to change that in `setup.py`.
+
+Like any C/C++ extension, you need to have the development package of Python (able to include `Python.h`) in order to
+compile. On Ubuntu you can simply run,
+
+    sudo apt-get install python-dev
 
 After installation, you can make sure everything is working by running the following inside the project root folder,
 

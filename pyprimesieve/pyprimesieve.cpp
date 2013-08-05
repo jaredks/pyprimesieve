@@ -13,15 +13,17 @@ const char* DOCSTRING =
 "- - - - - - - - - - - - - - - - - - - - - - - - - - -\n\n"
 "primes(n): List of prime numbers up to `n`.\n\n"
 "primes(start, n): List of prime numbers from `start` up to `n`.\n\n"
-"primes_sum(n [, threads]): The summation of prime numbers up to `n`. If `threads` is given, that many threads will\n"
-"be created. If not, the optimal number of threads will be determined.\n\n"
-"primes_sum(start, n [, threads]): The summation of prime numbers from `start` up to `n`. If `threads` is given,\n"
-"that many threads will be created. If not, the optimal number of threads will be determined.\n\n"
+"primes_sum(n): The summation of prime numbers up to `n`. The optimal number of threads will be determined for the "
+"given number and system.\n\n"
+"primes_sum(start, n): The summation of prime numbers from `start` up to `n`. The optimal number of threads will be "
+"determined for the given numbers and system.\n\n"
 "primes_nth(n): The nth prime number.\n\n"
-"factorize(n): List of tuples in the form of (*prime*, *power*) for the prime factorization of `n`.\n\n\n"
+"factorize(n): List of tuples in the form of (prime, power) for the prime factorization of `n`.\n\n\n"
 "Copyright: (c) 2013, Jared Suttles. All rights reserved.\n"
 "License: BSD, see LICENSE for details.\n";
 
+
+extern "C" {
 
 class PrimePyList : public PrimeSieveCallback<uint64_t> {
 public:
@@ -36,8 +38,8 @@ public:
         }
     }
     PyObject* list;
-    size_t*   i;
     size_t    pi;
+    size_t*   i;
 };
 
 static PyObject* primes(PyObject* self, PyObject* args){
@@ -85,15 +87,15 @@ static PyObject* factorize(PyObject* self, PyObject* args){
         PyList_Append(prime_factorization, tuple);
         Py_DECREF(tuple);
     }
-    size_t p = 3;
+    Py_ssize_t p = 3;
     while (p*p <= n){
         i = 0;
-        while (n % p ==0){
+        while (n % p == 0){
             n /= p;
             i++;
         }
         if (i > 0){
-            PyObject* tuple = PyTuple_Pack(2, PyInt_FromSize_t(p), PyInt_FromSize_t(i));
+            PyObject* tuple = PyTuple_Pack(2, PyInt_FromSsize_t(p), PyInt_FromSize_t(i));
             PyList_Append(prime_factorization, tuple);
             Py_DECREF(tuple);
         }
@@ -181,4 +183,6 @@ static PyMethodDef module_methods[] = {
 
 PyMODINIT_FUNC initpyprimesieve(){
     Py_InitModule3("pyprimesieve", module_methods, DOCSTRING);
+}
+
 }

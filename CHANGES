@@ -1,6 +1,14 @@
 Changes
 =======
 
+0.1.3 (2013-08-05)
+------------------
+
+- Fixed compilation warnings
+- extern "C"
+- Added more information regarding installation to README; updated docstring
+
+
 0.1.2 (2013-07-12)
 ------------------
 
