@@ -2,7 +2,7 @@
 from distutils.core import setup, Extension
 from os import path, environ
 
-environ['CC'] = environ['CXX'] = 'gcc'
+environ['CC'] = environ['CXX'] = 'g++'
 
 PRIMESIEVE_DIR = 'primesieve/src'
 PRIMESIEVE_FILES = ['EratBig.cpp', 'EratMedium.cpp', 'EratSmall.cpp', 'ParallelPrimeSieve.cpp', 'PreSieve.cpp',
