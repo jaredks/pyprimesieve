@@ -1,6 +1,14 @@
 Changes
 =======
 
+0.1.4 (2013-08-06)
+------------------
+
+- Parallel prime summation is now a class
+    - Threads calling callback method are NOT synchronized so faster on large input
+    - Updated README in bench to reflect new timings (small input is slightly worse but large is twice as fast)
+
+
 0.1.3 (2013-08-05)
 ------------------
 

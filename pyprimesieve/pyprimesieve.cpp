@@ -4,6 +4,7 @@
   License: BSD, see LICENSE for details.
 */
 #include <Python.h>
+#include <vector>
 #include "../primesieve/src/PrimeSieve.h"
 #include "../primesieve/src/PrimeSieveCallback.h"
 #include "../primesieve/src/ParallelPrimeSieve.h"
@@ -72,9 +73,10 @@ static PyObject* primes(PyObject* self, PyObject* args){
     return primes.list;
 }
 
+
 static PyObject* factorize(PyObject* self, PyObject* args){
     Py_ssize_t n = 0;
-    if (!PyArg_ParseTuple(args, "n", &n)) return NULL;
+    if (!PyArg_ParseTuple(args, "n:factorize", &n)) return NULL;
     PyObject* prime_factorization = PyList_New(0);
     if (n < 2) return prime_factorization;
     size_t i = 0;
@@ -109,15 +111,25 @@ static PyObject* factorize(PyObject* self, PyObject* args){
     return prime_factorization;
 }
 
-size_t sum = 0;
 
-void summation(uint64_t prime){
-    sum += prime;
-}
+const int CACHE_LINE = 256;
+const int NO_FALSE_SHARING = CACHE_LINE / sizeof(uint64_t);
+
+class ParallelPrimeSummation : public PrimeSieveCallback<uint64_t, int> {
+public:
+    ParallelPrimeSummation(int threads){
+        sums_list.resize(threads * NO_FALSE_SHARING, 0);
+    }
+    void callback(uint64_t prime, int thread_num){
+        sums_list[thread_num * NO_FALSE_SHARING] += prime;
+    }
+    std::vector<uint64_t> sums_list;
+};
 
 static PyObject* primes_sum(PyObject* self, PyObject* args){
     PyEval_InitThreads();
-    Py_ssize_t start = 0, n = 0; sum = 0;
+    Py_ssize_t start = 0, n = 0;
+    size_t sum = 0;
     if (!PyArg_ParseTuple(args, "n|n:primes_sum", &start, &n)) return NULL;
     if (PyTuple_Size(args) == 1){
         n = start;
@@ -125,13 +137,23 @@ static PyObject* primes_sum(PyObject* self, PyObject* args){
     }
     if (n < 3 || start > n) return PyErr_Occurred() ? NULL : PyInt_FromLong(0);
     if (start < 2) start = 2;
+
     Py_BEGIN_ALLOW_THREADS  //----
+
+    int threads = ParallelPrimeSieve::getMaxThreads();  // calls OpenMP's omp_get_max_threads
+    ParallelPrimeSummation summation(threads);
     ParallelPrimeSieve pps;
-    pps.setNumThreads(ParallelPrimeSieve::getMaxThreads());  // calls OpenMP's omp_get_max_threads
-    pps.generatePrimes(start, n-1, summation);
+    pps.setNumThreads(threads);
+    pps.generatePrimes(start, n-1, &summation);
+
+    for (uint64_t i = 0; i < summation.sums_list.size(); i += NO_FALSE_SHARING)
+        sum += summation.sums_list[i];
+
     Py_END_ALLOW_THREADS    //----
+
     return PyInt_FromSize_t(sum);
 }
+
 
 class StopPrimeGeneration : public std::exception {};
 

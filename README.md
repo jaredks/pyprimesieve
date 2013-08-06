@@ -70,9 +70,9 @@ Installation
 
     python setup.py install
 
-NOTE: Because of the need to use OpenMP to compile the parallelized version of summation, gcc is specified in
+NOTE: Because of the need to use OpenMP to compile the parallelized version of summation, g++ is specified in
 environment variables of setup to avoid distutils choosing a compiler that does not have support for OpenMP. If you
-don't have gcc, you will need to change that in `setup.py`.
+don't have g++, you will need to change that in `setup.py`.
 
 Like any C/C++ extension, you need to have the development package of Python (able to include `Python.h`) in order to
 compile. On Ubuntu you can simply run,
