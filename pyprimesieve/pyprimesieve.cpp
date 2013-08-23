@@ -129,7 +129,7 @@ public:
 static PyObject* primes_sum(PyObject* self, PyObject* args){
     PyEval_InitThreads();
     Py_ssize_t start = 0, n = 0;
-    size_t sum = 0;
+    uint64_t sum = 0;
     if (!PyArg_ParseTuple(args, "n|n:primes_sum", &start, &n)) return NULL;
     if (PyTuple_Size(args) == 1){
         n = start;
@@ -151,7 +151,7 @@ static PyObject* primes_sum(PyObject* self, PyObject* args){
 
     Py_END_ALLOW_THREADS    //----
 
-    return PyInt_FromSize_t(sum);
+    return Py_BuildValue("K", sum);
 }
 
 
