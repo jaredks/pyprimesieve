@@ -89,7 +89,7 @@ License
 
 "Modified BSD License". See LICENSE for details. Copyright Jared Suttles, 2013.
 
-[0]: http://code.google.com/p/primesieve/
+[0]: https://github.com/kimwalisch/primesieve
 [1]: http://primzahlen.de/referenten/Kim_Walisch/index2.htm
 [2]: http://cr.yp.to/primegen.html
 [3]: http://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n-in-python
