@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from distutils.core import setup, Extension
+from setuptools import setup, find_packages, Extension  # Always prefer setuptools over distutils
 from os import path, environ
 
 environ['CC'] = environ['CXX'] = 'g++'
@@ -15,7 +15,8 @@ setup(
     version='0.1.4',
     description='Many primes, very fast. Uses primesieve.',
     author='Jared Suttles',
-    url='https://github.com/jaredks/pyprimesieve',
+    maintainer='Matt Hickford',
+    url='https://github.com/hickford/pyprimesieve',
     long_description=open('README.md').read() + '\n\n' + open('CHANGES').read(),
     license='BSD License',
     package_data={'': ['LICENSE']},
@@ -36,5 +37,10 @@ setup(
         'Programming Language :: C++',
         'Topic :: Scientific/Engineering :: Mathematics',
         'Topic :: Software Development :: Libraries :: Python Modules',
+        # Specify the Python versions you support here. In particular, ensure
+        # that you indicate whether you support Python 2, Python 3 or both.
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
     ],
 )
