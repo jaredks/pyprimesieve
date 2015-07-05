@@ -6,7 +6,7 @@ Many primes, very fast. Uses [primesieve][0].
 primesieve, one of the fastest (if not the fastest) prime sieve implementaions available, is actively maintained by
 Kim Walisch.
 
-It uses a segmented sieve of Eratosthenes with wheel factorization for a complexity of `O(nloglogn)` operations.
+It uses a segmented sieve of Eratosthenes with wheel factorization for a complexity of ``O(nloglogn)`` operations.
 
 
 Performance
@@ -20,11 +20,11 @@ Regarding primesieve for C++:
 > about 30 percent and also substantially outperforms [primegen][2] the fastest sieve of Atkin implementation on the
 > web.
 
-For comparison, on an Intel Core i7 2GHz, `pyprimesieve` populates an entire Python list of the first
+For comparison, on an Intel Core i7 2GHz, ``pyprimesieve`` populates an entire Python list of the first
 50,847,534 primes in 1.40 seconds. It's expected that a Python implementation would be slower than C++ but,
 surprisingly, by only one second.
 
-`pyprimesieve` outperforms all of the fastest prime sieving implementations for Python.
+``pyprimesieve`` outperforms all of the fastest prime sieving implementations for Python.
 
     Time (ms) to generate the all primes below one million and iterate over them in Python:
 
@@ -41,7 +41,7 @@ surprisingly, by only one second.
     sieveOfAtkin         232.724905014
     sundaram3            251.194953918
 
-It can be seen here that `pyprimesieve` is *4.7 times faster* than the fastest Python alternative using `Numpy` and
+It can be seen here that ``pyprimesieve`` is *4.7 times faster* than the fastest Python alternative using ``Numpy`` and
 *13.85 times faster* than the fastest pure Python sieve.
 
 All benchmark scripts and algorithms are available for reproduction. Prime sieve algorithm implementations were taken
@@ -68,6 +68,8 @@ determined for the given numbers and system.
 Installation
 ------------
 
+.. code-block:: bash
+
     python setup.py install
 
 NOTE: Because of the need to use OpenMP to compile the parallelized version of summation, g++ is specified in
@@ -76,6 +78,8 @@ don't have g++, you will need to pass in a valid compiler as an environment vari
 
 NOTE: For OS X users, g++ is by default linked to clang which does not support OpenMP. This means that you will get a
 potentially misleading error while installing. Something like,
+
+.. code-block:: bash
 
     ld: library not found for -lgomp
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
@@ -86,9 +90,13 @@ Just install g++.
 Like any C/C++ extension, you need to have the development package of Python (able to include `Python.h`) in order to
 compile. On Ubuntu you can simply run,
 
+.. code-block:: bash
+
     sudo apt-get install python-dev
 
 After installation, you can make sure everything is working by running the following inside the project root folder,
+
+.. code-block:: bash
 
     python tests
 
