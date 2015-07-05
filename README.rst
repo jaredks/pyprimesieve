@@ -74,7 +74,7 @@ Installation
 
 .. code-block:: bash
 
-    python setup.py install
+    pip install pyprimesieve
 
 **NOTE**: Because of the need to use OpenMP to compile the parallelized version of summation, g++ is specified in
 environment variables of setup to avoid distutils choosing a compiler that does not have support for OpenMP. If you
