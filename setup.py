@@ -1,14 +1,25 @@
 #!/usr/bin/env python
-from distutils.core import setup, Extension
-from os import path, environ
 
-environ['CC'] = environ['CXX'] = 'g++'
+import os
+from distutils.core import setup, Extension
+
+if 'CC' not in os.environ:
+    os.environ['CC'] = 'g++'
+
+if 'CXX' not in os.environ:
+    os.environ['CXX'] = 'g++'
+
+with open('README.md') as f:
+    readme = f.read()
+
+with open('CHANGES') as f:
+    changes = f.read()
 
 PRIMESIEVE_DIR = 'primesieve/src'
 PRIMESIEVE_FILES = ['EratBig.cpp', 'EratMedium.cpp', 'EratSmall.cpp', 'ParallelPrimeSieve.cpp', 'PreSieve.cpp',
                     'PrimeFinder.cpp', 'PrimeGenerator.cpp', 'PrimeSieve.cpp', 'SieveOfEratosthenes.cpp',
                     'WheelFactorization.cpp', 'popcount.cpp']
-PRIMESIEVE = [path.join(PRIMESIEVE_DIR, filename) for filename in PRIMESIEVE_FILES]
+PRIMESIEVE = [os.path.join(PRIMESIEVE_DIR, filename) for filename in PRIMESIEVE_FILES]
 
 setup(
     name='pyprimesieve',
@@ -16,7 +27,7 @@ setup(
     description='Many primes, very fast. Uses primesieve.',
     author='Jared Suttles',
     url='https://github.com/jaredks/pyprimesieve',
-    long_description=open('README.md').read() + '\n\n' + open('CHANGES').read(),
+    long_description=readme + '\n\n' + changes,
     license='BSD License',
     package_data={'': ['LICENSE']},
     ext_modules=[
