@@ -1,6 +1,6 @@
 /*
   pyprimesieve: Many primes, very fast. Uses primesieve.
-  Copyright: (c) 2013, Jared Suttles. All rights reserved.
+  Copyright: (c) 2015, Jared Suttles. All rights reserved.
   License: BSD, see LICENSE for details.
 */
 #include <Python.h>
@@ -20,7 +20,7 @@ const char* DOCSTRING =
 "determined for the given numbers and system.\n\n"
 "primes_nth(n): The nth prime number.\n\n"
 "factorize(n): List of tuples in the form of (prime, power) for the prime factorization of `n`.\n\n\n"
-"Copyright: (c) 2013, Jared Suttles. All rights reserved.\n"
+"Copyright: (c) 2015, Jared Suttles. All rights reserved.\n"
 "License: BSD, see LICENSE for details.\n";
 
 
