@@ -9,10 +9,10 @@ if 'CC' not in os.environ:
 if 'CXX' not in os.environ:
     os.environ['CXX'] = 'g++'
 
-with open('README.md') as f:
+with open('README.rst') as f:
     readme = f.read()
 
-with open('CHANGES') as f:
+with open('CHANGES.rst') as f:
     changes = f.read()
 
 PRIMESIEVE_DIR = 'primesieve/src'
