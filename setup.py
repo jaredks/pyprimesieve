@@ -23,7 +23,7 @@ PRIMESIEVE = [os.path.join(PRIMESIEVE_DIR, filename) for filename in PRIMESIEVE_
 
 setup(
     name='pyprimesieve',
-    version='0.1.4',
+    version='0.1.5',
     description='Many primes, very fast. Uses primesieve.',
     author='Jared Suttles',
     url='https://github.com/jaredks/pyprimesieve',
