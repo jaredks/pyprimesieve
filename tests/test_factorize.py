@@ -4,6 +4,11 @@ import pyprimesieve
 from test_primes import sequences_equal
 import random
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 
 def factorize(n):
     """
@@ -14,7 +19,7 @@ def factorize(n):
         return prime_factors
     i = 0
     while not n & 1:
-        n /= 2
+        n //= 2
         i += 1
     if i > 0:
         prime_factors.append((2, i))
@@ -23,7 +28,7 @@ def factorize(n):
             break
         i = 0
         while n % p == 0:
-            n /= p
+            n //= p
             i += 1
         if i > 0:
             prime_factors.append((p, i))
@@ -39,7 +44,7 @@ class TestFactorize(unittest.TestCase):
     def test_negative_2(self):
         self.assertEqual(pyprimesieve.factorize(-48485), [])
 
-l = range(10**6)
+l = list(range(10**6))
 random.shuffle(l)
 l = l[:10**4]
 for i, n in enumerate(l):

@@ -9,6 +9,12 @@
 #include "../primesieve/src/PrimeSieveCallback.h"
 #include "../primesieve/src/ParallelPrimeSieve.h"
 
+#if PY_MAJOR_VERSION >= 3
+#define PyInt_FromLong PyLong_FromLong
+#define PyInt_FromSize_t PyLong_FromSize_t
+#define PyInt_FromSsize_t PyLong_FromSsize_t
+#endif
+
 const char* DOCSTRING =
 "pyprimesieve: Many primes, very fast. Uses primesieve.\n"
 "- - - - - - - - - - - - - - - - - - - - - - - - - - -\n\n"
@@ -203,8 +209,34 @@ static PyMethodDef module_methods[] = {
     {NULL, NULL, 0, NULL}
 };
 
-PyMODINIT_FUNC initpyprimesieve(){
+#if PY_MAJOR_VERSION >= 3
+
+static struct PyModuleDef module_def = {
+    PyModuleDef_HEAD_INIT,
+    "pyprimesieve",
+    DOCSTRING,
+    -1,
+    module_methods
+};
+
+PyMODINIT_FUNC
+PyInit_pyprimesieve(void)
+
+#else
+
+PyMODINIT_FUNC
+initpyprimesieve(void)
+
+#endif
+
+{
+
+#if PY_MAJOR_VERSION >= 3
+    return PyModule_Create(&module_def);
+#else
     Py_InitModule3("pyprimesieve", module_methods, DOCSTRING);
+#endif
+
 }
 
 }
