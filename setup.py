@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import re
 import sys
 from distutils.command.build_ext import build_ext
 from distutils.errors import CCompilerError, DistutilsExecError, DistutilsPlatformError
@@ -9,6 +10,8 @@ try:
 except ImportError:
     from distutils.core import setup, Extension
 
+with open(os.path.join(os.path.dirname(__file__), 'pyprimesieve', 'pyprimesieve.cpp')) as f:
+    VERSION = re.search(r'__version__.*"(\d.*?)"', f.read()).group(1)
 
 # the following code for C extension failure copied from SQLAlchemy's setup.py
 # ----
@@ -79,7 +82,7 @@ def run_setup(openmp):
 
     setup(
         name='pyprimesieve',
-        version='0.1.6',
+        version=VERSION,
         description='Many primes, very fast. Uses primesieve.',
         author='Jared Suttles',
         url='https://github.com/jaredks/pyprimesieve',

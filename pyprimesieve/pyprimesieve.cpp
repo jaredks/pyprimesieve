@@ -231,10 +231,18 @@ initpyprimesieve(void)
 
 {
 
+    PyObject *m;
+
 #if PY_MAJOR_VERSION >= 3
-    return PyModule_Create(&module_def);
+    m = PyModule_Create(&module_def);
 #else
-    Py_InitModule3("pyprimesieve", module_methods, DOCSTRING);
+    m = Py_InitModule3("pyprimesieve", module_methods, DOCSTRING);
+#endif
+
+    PyModule_AddObject(m, "__version__", Py_BuildValue("s", "0.1.6"));
+
+#if PY_MAJOR_VERSION >= 3
+    return m;
 #endif
 
 }
