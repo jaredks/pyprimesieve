@@ -1,6 +1,13 @@
 Changes
 =======
 
+0.1.6 (2015-07-07)
+------------------
+
+- Python 3 support
+- No longer assume `g++` in `setup.py` but rather tries installing with OpenMP and retries if that fails
+
+
 0.1.5 (2015-07-05)
 ------------------
 
