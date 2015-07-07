@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import unittest
 import pyprimesieve
 
@@ -20,12 +21,11 @@ class TestNthPrimes(unittest.TestCase):
         self.assertEqual(pyprimesieve.primes_nth(81749371), 1648727417)
 
     def test_exception_1(self):
-        with self.assertRaises(ValueError):
-            pyprimesieve.primes_nth(0)
+        self.assertRaises(ValueError, pyprimesieve.primes_nth, 0)
 
     def test_exception_2(self):
-        with self.assertRaises(ValueError):
-            pyprimesieve.primes_nth(-1111)
+        self.assertRaises(ValueError, pyprimesieve.primes_nth, -1111)
+
 
 if __name__ == "__main__":
     unittest.main()

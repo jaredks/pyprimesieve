@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import unittest
 import pyprimesieve
 from test_primes import sequences_equal
@@ -44,12 +45,14 @@ class TestFactorize(unittest.TestCase):
     def test_negative_2(self):
         self.assertEqual(pyprimesieve.factorize(-48485), [])
 
+
 l = list(range(10**6))
 random.shuffle(l)
 l = l[:10**4]
 for i, n in enumerate(l):
     test = lambda self: self.assertTrue(sequences_equal(pyprimesieve.factorize(n), factorize(n)))
     setattr(TestFactorize, 'test_' + str(i), test)
+
 
 if __name__ == "__main__":
     unittest.main()
