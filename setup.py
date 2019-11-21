@@ -73,9 +73,10 @@ PRIMESIEVE = [os.path.join(PRIMESIEVE_DIR, filename) for filename in PRIMESIEVE_
 
 def run_setup(openmp):
     if openmp:
+        extra_args = ['/openmp'] if os.name == 'nt' else ['-fopenmp']
         kwargs = {
-            'extra_compile_args': ['-fopenmp'],
-            'extra_link_args': ['-fopenmp']
+            'extra_compile_args': extra_args,
+            'extra_link_args': extra_args,
         }
     else:
         kwargs = {}
